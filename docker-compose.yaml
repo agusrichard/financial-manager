@@ -5,6 +5,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: financial_manager_server
+    command: python manage.py runserver 0.0.0.0:8000
     restart: always
     env_file:
       - .env
@@ -18,7 +19,7 @@ services:
     volumes:
       - "./server:/app/server"
     ports:
-      - "3000:3000"
+      - "8000:8000"
     depends_on:
       - db
   db:

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import json
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -28,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG'))
 
-ALLOWED_HOSTS = list(os.getenv('ALLOWED_HOSTS').split(','))
+ALLOWED_HOSTS = [x.strip() for x in eval(os.getenv('ALLOWED_HOSTS'))]
 
 
 # Application definition
