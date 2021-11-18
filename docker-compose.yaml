@@ -5,6 +5,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: financial_manager_server
+    command: python manage.py runserver 0.0.0.0:8000
     restart: always
     env_file:
       - .env
