@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import Account
 
@@ -23,3 +25,11 @@ class AccountSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Account.objects.create_user(**validated_data)
+
+
+class AccountTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['user_id'] = user.id
+        return token

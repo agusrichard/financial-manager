@@ -1,8 +1,13 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.utils import IntegrityError
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import AccountSerializer
+from .serializers import AccountSerializer, AccountTokenObtainPairSerializer
+
+
+class AccountTokenObtainPairView(TokenObtainPairView):
+    serializer_class = AccountTokenObtainPairSerializer
 
 
 @api_view(http_method_names=['POST'])
