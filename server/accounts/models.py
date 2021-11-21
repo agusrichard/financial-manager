@@ -20,4 +20,11 @@ class Account(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
 
     def __str__(self):
-        return self.email
+        return f'Account(' \
+               f'email={self.email}, ' \
+               f'full_name={self.full_name}, ' \
+               f'is_active={self.is_active}, ' \
+               f'date_joined={self.date_joined}, ' \
+               f'is_deleted={self.is_deleted}, ' \
+               f'birth_date={self.birth_date}' \
+               f')'
