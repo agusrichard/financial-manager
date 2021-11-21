@@ -1,4 +1,8 @@
+from django.core import exceptions
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+import django.contrib.auth.password_validation as validators
 
 from .models import Account
 
@@ -23,3 +27,25 @@ class AccountSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Account.objects.create_user(**validated_data)
+
+    def validate(self, data):
+        password = data.get('password')
+        errors = dict()
+        try:
+            validators.validate_password(password=password, user=Account)
+        except exceptions.ValidationError as e:
+            errors['password'] = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+        return super(AccountSerializer, self).validate(data)
+
+
+
+
+class AccountTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['user_id'] = user.id
+        return token
